@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests pandas numpy matplotlib seaborn dbt-core dbt-postgres
+          pip install -r requirements.txt
           
       - name: Fetch data from WorldBank API
         run: |
@@ -32,14 +32,13 @@ jobs:
         run: |
           python src/data_cleaning.py
           
-      - name: Run dbt models
-        run: |
-          cd models
-          dbt run
-          
       - name: Generate EDA and visualizations
         run: |
           python analysis/generate_eda.py
+          
+      - name: Generate additional visualizations
+        run: |
+          python analysis/generate_visualizations.py
           
       - name: Commit and push changes
         run: |
